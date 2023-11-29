@@ -40,12 +40,36 @@ window.addEventListener('load', (event) => {
 
   // Add all the divs to the HTML
   document.querySelector('#memory-board').innerHTML = html;
-
-  // Bind the click event of each element to a function
+  // Bind the click event of each element to a function //
+  let flipedCards = [];
   document.querySelectorAll('.card').forEach((card) => {
     card.addEventListener('click', () => {
+      if (flipedCards.length === 2) {
+        return;
+      }
+      // Flip the turd of a card thats clicked //
+      card.classList.add('turned');      
+      flipedCards.push(card);
+      if (flipedCards.length === 2) {
+        const [card1, card2] = flipedCards;
+        // names of the cards // 
+        const name1 = card1.dataset.cardName;
+        const name2 = card2.dataset.cardName;
+        // If they match keep them turned, if not flip them back //
+        if (name1 === name2) {
+          flipedCards = [];
+        } else {
+          setTimeout(() => {
+            card1.classList.remove('turned');
+            card2.classList.remove('turned');
+            flipedCards = [];
+          }, 1000); 
+        }
+      }
       // TODO: write some code here
       console.log(`Card clicked: ${card}`);
+      
     });
   });
 });
+
